@@ -1,25 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { createContext, useState } from "react";
+import Counter from "./components/Counter";
+import BtnDecrement from "./components/BtnDrecrement";
+import BtnIncrement from "./components/BtnIncrement";
+
+
+export const CounterContext = createContext({
+  count: 0,
+  increment: () => {},
+  decrement: () => {},
+});
 
 function App() {
+  let [counter, setCounter] = useState(0);
+
+  function onIncrement() {
+    setCounter(counter + 1);
+  }
+
+  function onDecrement() {
+    setCounter(counter - 1);
+  }
+  
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <CounterContext.Provider
+      value={{
+        count:counter,
+        increment: onIncrement,
+        decrement: onDecrement,
+      }}
+    >
+      <BtnDecrement />
+      <Counter />
+      <BtnIncrement />
+    </CounterContext.Provider>
   );
 }
 
